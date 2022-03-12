@@ -54,7 +54,10 @@ class SeterraSolver:
 				if formatted_text == "lowa": formatted_text = "iowa"
 				if formatted_text == "iltinois": formatted_text = "illinois"
 				times += 1
-			coords = self.usa_states_dictionary[formatted_text]
+			coords = self.usa_states_dictionary.get(formatted_text, None)
+			if not coords:
+				print("Name not found")
+				continue
 			pyautogui.click(x=coords["x"], y=coords["y"])
 			sleep(self.timeout)
 			i += 1
@@ -84,7 +87,10 @@ class SeterraSolver:
 				if "zechrepublic" in formatted_text: formatted_text = "czechrepublic"
 				if "andherz" in formatted_text: formatted_text = "bosniaandhertzegovina"
 				times += 1
-			coords = self.europe_countries_dictionary[formatted_text]
+			coords = self.europe_countries_dictionary.get(formatted_text, None)
+			if not coords:
+				print("Name not found")
+				continue
 			pyautogui.click(x=coords["x"], y=coords["y"])
 			sleep(self.timeout)
 			i += 1
