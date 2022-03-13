@@ -1,5 +1,5 @@
 from time import sleep
-from PIL import Image
+from PIL import Image, ImageDraw
 import pytesseract
 import pyautogui
 import shutil
@@ -112,17 +112,18 @@ class SeterraSolver:
 			shutil.rmtree(dir)
 			os.mkdir(dir)
 		i = 0
-		width = 200
 		while 1:
 			image_name = f"{dir}/_{i}.png"
-			pyautogui.screenshot(image_name, region=(535, 200, width, 35))
-			image = Image.open(image_name)
-			image_gray = image.convert('L')
-			image_gray.save(image_name[:-4] + "_grayscale.jpg")
-			text = pytesseract.image_to_string(image_gray, lang="eng")
+			seed = (108, 24)
+			rep_value = (138, 181, 155)
+			pyautogui.screenshot(image_name, region=(535, 200, 200, 35))
+			image = Image.open(image_name).convert('RGB')
+			ImageDraw.floodfill(image, seed, rep_value, thresh=50)
+			image.save(image_name[:-4] + "_filled.png")
+			text = pytesseract.image_to_string(image, lang="eng")
 			formatted_text = text.strip().replace(" ", "").lower()
 			times = 0
-			if formatted_text == "" and width == 100:
+			if formatted_text == "":
 				break
 			while formatted_text not in self.africa_countries_list and times < 5:
 				formatted_text = formatted_text[1:]
@@ -140,10 +141,9 @@ class SeterraSolver:
 				times += 1
 			coords = self.africa_countries_dictionary.get(formatted_text, None)
 			if not coords:
-				width = 100
+				print("Name not found")
 				continue
 			pyautogui.click(x=coords["x"], y=coords["y"])
 			sleep(self.timeout)
-			width = 200
 			i += 1
 		shutil.rmtree(dir)
