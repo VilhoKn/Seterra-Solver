@@ -66,7 +66,7 @@ class SeterraSolver:
 			i += 1
 		shutil.rmtree(dir)
 
-solver = SeterraSolver(timeout=0)
+solver = SeterraSolver()
 
 pyautogui.scroll(-250)
 while 1:
