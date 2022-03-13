@@ -21,14 +21,6 @@ class SeterraSolver:
 				split = i.strip().split(" ")
 				self.usa_states_list.append(split[0])
 				self.usa_states_dictionary[split[0]] = {"x": int(split[1]), "y": int(split[2])}
-
-		self.europe_countries_dictionary = {}
-		self.europe_countries_list = []
-		with open(f"../files/europe_countries_{self.resolution}_{self.zoom}.txt", "r") as f:
-			for i in f.readlines():
-				split = i.strip().split(" ")
-				self.europe_countries_list.append(split[0])
-				self.europe_countries_dictionary[split[0]] = {"x": int(split[1]), "y": int(split[2])}
 		
 	def SolveUsaStates(self):
 		dir = "../files/usa_states_temp"
